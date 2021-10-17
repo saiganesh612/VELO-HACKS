@@ -12,18 +12,17 @@ const Navbarr = () => {
     return (
         <Navbar className="shadow-lg" collapseOnSelect expand="lg" >
             <Container>
-                <Navbar.Brand href="/"><b className="nav-title" >BIRTH-DAY</b></Navbar.Brand>
+                <Navbar.Brand href="/"><b className="nav-title" >HACRACK</b></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
+                       
                     </Nav>
                     <Nav>
-                        <Nav.Link href="/"><p className="navlink">Home</p></Nav.Link>
-                        <Nav.Link href="/"><p className="navlink">Anniversaries</p></Nav.Link>
-                        <Nav.Link href="/"><p className="navlink">Babies Birthdays</p></Nav.Link>
-                        <Nav.Link href="/"><p className="navlink">Adults Birthdays</p></Nav.Link>
-
-                        <Nav.Link eventKey={2} href="/"><p className="navlink"> Post events</p></Nav.Link>
+                        
+                        <Nav.Link eventKey={2} href="/post-your-experience"><p className="navlink">Post your experience</p></Nav.Link>
+                        <Nav.Link eventKey={2} href="/"><p className="navlink">Find your partner</p></Nav.Link>
+                        <Nav.Link eventKey={2} href="/"><p className="navlink">Projects</p></Nav.Link>
                         {isAuthenticated
                             ? <>
                                 <Nav.Link >
