@@ -4,16 +4,16 @@ const User = require("../models/user")
 
 router.post("/update-user-details", async (req, res) => {
     try {
-        const { profileObj } = req.body.userObj;
+        const { user } = req.body;
 
-        const user = await User.findOne({ socialId: { $eq: profileObj.googleId } })
-        if (!user) {
+        const userFound = await User.findOne({ socialId: { $eq: user.sub } })
+        if (!userFound) {
             const newUser = new User({
-                socialId: profileObj.googleId,
-                imageUrl: profileObj.imageUrl,
-                email: profileObj.email,
-                fullName: profileObj.name,
-                username: profileObj.givenName
+                socialId: user.sub,
+                imageUrl: user.picture,
+                email: user.email,
+                fullName: user.name,
+                username: user.nickname
             })
             await newUser.save();
         }

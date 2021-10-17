@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // JS Components
 import Home from './Pages/Home/home'
-import Authentication from './Pages/Auth/Auth';
+// import Authentication from './Pages/Auth/Auth';
 
 function App() {
   return (
@@ -16,9 +16,9 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route exact path="/auth">
+          {/* <Route exact path="/auth">
             <Authentication />
-          </Route>
+          </Route> */}
         </Switch>
       </Router>
     </div>

@@ -6,13 +6,20 @@ import { createStore, compose, applyMiddleware } from "redux"
 import thunk from "redux-thunk"
 import reportWebVitals from './reportWebVitals';
 import { reducers } from "./reducers"
+import { Auth0Provider } from "@auth0/auth0-react"
 
 const store = createStore(reducers, compose(applyMiddleware(thunk)))
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Auth0Provider
+        domain="dev-mei12s29.us.auth0.com"
+        clientId="9NDoMWF9Cpk0dZG4oQUmHdtUHdNLSLdO"
+        redirectUri={window.location.origin}
+      >
+        <App />
+      </Auth0Provider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
