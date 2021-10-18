@@ -6,6 +6,10 @@ import Navbarr from './Components/navbar/navbar';
 // JS Components
 import Home from './Pages/Home/home'
 import ExperienceForm from './Pages/ExperienceForm/ExperienceForm';
+import RequestForm from './Pages/TeamMatesRequestForm/RequestForm';
+import TeammatesFeed from './Pages/TeamMatesFeed/TeammatesFeed';
+import Projects from './Pages/Projects/Projects'
+// import Authentication from './Pages/Auth/Auth';
 
 function App() {
   return (
@@ -20,6 +24,21 @@ function App() {
             <Navbarr />
             <ExperienceForm />
           </Route>
+          <Route exact path="/find-your-teammate">
+            <Navbarr/>
+            <RequestForm />
+          </Route>
+          <Route exact path="/team-feed">
+            <Navbarr/>
+            <TeammatesFeed />
+          </Route>
+          <Route exact path="/projects">
+            <Navbarr/>
+            <Projects />
+          </Route>
+          {/* <Route exact path="/auth">
+            <Authentication />
+          </Route> */}
         </Switch>
       </Router>
     </div>

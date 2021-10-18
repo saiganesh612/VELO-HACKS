@@ -19,10 +19,10 @@ const Navbarr = () => {
                        
                     </Nav>
                     <Nav>
-                        
                         <Nav.Link eventKey={2} href="/post-your-experience"><p className="navlink">Post your experience</p></Nav.Link>
-                        <Nav.Link eventKey={2} href="/"><p className="navlink">Find your partner</p></Nav.Link>
-                        <Nav.Link eventKey={2} href="/"><p className="navlink">Projects</p></Nav.Link>
+                        <Nav.Link eventKey={2} href="/find-your-teammate"><p className="navlink">Find your partner</p></Nav.Link>
+                        <Nav.Link eventKey={2} href="/team-feed"><p className="navlink">Requirements Feed</p></Nav.Link>
+                        <Nav.Link eventKey={2} href="/projects"><p className="navlink">Projects</p></Nav.Link>
                         {isAuthenticated
                             ? <>
                                 <Nav.Link >
