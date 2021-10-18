@@ -15,7 +15,7 @@ const hackathonSchema = new mongoose.Schema({
         {
             _id: false,
             name: String,
-            linkedin_url: String
+            linkedinUrl: String
         }
     ]
 })

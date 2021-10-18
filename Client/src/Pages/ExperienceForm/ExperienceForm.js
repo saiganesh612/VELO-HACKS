@@ -58,8 +58,6 @@ const ExperienceForm = () => {
         }).catch(err => {
             console.log(err.response)
         })
-
-        // window.location.href = ('http://localhost:3000/');
     }
 
     return (
