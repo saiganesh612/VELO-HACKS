@@ -53,10 +53,12 @@ const ExperienceForm = () => {
 
         const data = { ...postData, TeamDetails: [...inputList], username: user.nickname }
 
-        axios.post("/create-new-hackathon", { data }).then(res => {
-            console.log(res)
+        axios.post("/create-new-hackathon", { data }).then(() => {
+            window.location.href = "/projects"
         }).catch(err => {
             console.log(err.response)
+            alert("Something went wrong...")
+            window.location.reload()
         })
     }
 
