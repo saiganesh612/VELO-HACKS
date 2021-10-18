@@ -1,10 +1,10 @@
 import React from 'react'
 import TypeWriterEffect from 'react-typewriter-effect';
-import { Typewriter } from 'react-simple-typewriter';
 import hero from './Images/hero.png';
 import about from './Images/about.png';
 import decor from './Images/spark.svg'
 import useStyles from './style'
+
 const Home = () => {
     const classes = useStyles();
     return (
@@ -12,50 +12,41 @@ const Home = () => {
             {/* hero section */}
             <div className="row">
                 <div className="col" >
-                   <div className={classes.title}>
-                       <p>Find your next</p>
-                       <TypeWriterEffect
-                        textStyle={{
-                            color:"#C996CC",
-                            fontSize:"60px",
-                            fontWeight:"bold"
-                        }}
-                        startDelay={0}
-                        cursorColor="#C996CC"
-                        multiText={[
-                        'CODE!!_',
-                        'GUIDANCE!!_',
-                        'BIG IDEA!!_',
-                        'PROJECT!!_',
-                        ]}
-                        multiTextDelay={1000}
-                        typeSpeed={50}
-                    />
-                   </div>
-                   <div className={classes.content}>
+                    <div className={classes.title}>
+                        <p>Find your next</p>
+                        <TypeWriterEffect
+                            textStyle={{ color: "#C996CC", fontSize: "60px", fontWeight: "bold" }}
+                            startDelay={0}
+                            cursorColor="#C996CC"
+                            multiText={['CODE!!_', 'GUIDANCE!!_', 'BIG IDEA!!_', 'PROJECT!!_',]}
+                            multiTextDelay={1000}
+                            typeSpeed={50}
+                        />
+                    </div>
+                    <div className={classes.content}>
                         Hackathons are a great place to learn, build, discover new ideas and make new friends. Dive right in ;)
-                   </div>
+                    </div>
                 </div>
                 <div className="col">
-                     <img alt="" src={hero}/>
+                    <img alt="" src={hero} />
                 </div>
             </div>
-            <br/>
+            <br />
             <div className={classes.start}>
-                <img alt="" style={{width:"50pc"}}  src={decor}/>
+                <img alt="" style={{ width: "50pc" }} src={decor} />
                 <p>We go and grow together😉</p>
             </div>
-            <br/>
+            <br />
             {/* ABOUT SECTION */}
             <div className="row">
                 <div className="col">
-                    <img alt="" style={{width:"500px"}} src={about}/>
+                    <img alt="" style={{ width: "500px" }} src={about} />
                 </div>
                 <div className="col">
-                <div className={classes.about}>
-                       <p>All in one.... 
-                        <span style={{color:"#FFA0A0"}}>
-                       {/* <Typewriter
+                    <div className={classes.about}>
+                        <p>All in one....
+                            <span style={{ color: "#FFA0A0" }}>
+                                {/* <Typewriter
                         words={[' What?', ' When?', ' How?', ' Where?']}
                         loop={5}
                         cursor
@@ -64,10 +55,10 @@ const Home = () => {
                         deleteSpeed={50}
                         delaySpeed={1000}
                     /> */}
-                    </span>
-                    </p>
-                   </div>
-                   <p className={classes.content2}>
+                            </span>
+                        </p>
+                    </div>
+                    <p className={classes.content2}>
                         This is a place where you can find previous hackerthons project ideas , code , hackerthon details , main source of idea , suggestions, guidance for your projects and many more ...
                         What are you waiting for start interacting with our hackers.
                     </p>

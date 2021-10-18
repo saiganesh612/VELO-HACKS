@@ -14,16 +14,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@auth0/auth0-react": "^1.8.0",
-    "@material-ui/styles": "^4.11.4",
     "axios": "^0.23.0",
     "concurrently": "^6.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "formik": "^2.2.9",
-    "mongoose": "^6.0.11",
-    "react-file-base64": "^1.0.3",
-    "react-simple-typewriter": "^3.0.1",
-    "react-typewriter-effect": "^1.1.0"
+    "mongoose": "^6.0.11"
   }
 }

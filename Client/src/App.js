@@ -3,11 +3,8 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbarr from './Components/navbar/navbar';
-
-// REDUX Components
-
 // JS Components
-import Home from './Pages/Home/Home'
+import Home from './Pages/Home/home'
 import ExperienceForm from './Pages/ExperienceForm/ExperienceForm';
 import RequestForm from './Pages/TeamMatesRequestForm/RequestForm';
 import TeammatesFeed from './Pages/TeamMatesFeed/TeammatesFeed';
@@ -20,11 +17,11 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Navbarr/>
+            <Navbarr />
             <Home />
           </Route>
           <Route exact path="/post-your-experience">
-            <Navbarr/>
+            <Navbarr />
             <ExperienceForm />
           </Route>
           <Route exact path="/find-your-teammate">

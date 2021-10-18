@@ -5,6 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose")
 
 const userRoutes = require("./routes/user.routes")
+const hackathonRoutes = require("./routes/hackathon.routes")
 
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/velo-hacks"
 mongoose.connect(dbUrl, {
@@ -23,6 +24,7 @@ db.once("open", () => {
 })
 
 app.use(userRoutes)
+app.use(hackathonRoutes)
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "Client/build")));
