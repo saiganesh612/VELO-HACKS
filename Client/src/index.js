@@ -17,6 +17,7 @@ ReactDOM.render(
         domain="dev-mei12s29.us.auth0.com"
         clientId="9NDoMWF9Cpk0dZG4oQUmHdtUHdNLSLdO"
         redirectUri={window.location.origin}
+        audience="https://dev-mei12s29.us.auth0.com/api/v2/"
       >
         <App />
       </Auth0Provider>
