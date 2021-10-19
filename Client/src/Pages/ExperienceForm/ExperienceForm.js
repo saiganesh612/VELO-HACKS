@@ -7,15 +7,18 @@ import axios from "axios"
 import { useAuth0 } from "@auth0/auth0-react"
 
 const ExperienceForm = () => {
-    const { user } = useAuth0()
+    const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
 
     const [inputList, setInputList] = useState([{ name: "", linkedinUrl: "" }]);
     const [postData, setPostData] = useState({
         Hackerthonname: '', Organizer: '', eventDate: '', detailedDescription: '', BriefDescription: '',
         projectTheme: '', techStack: '', selectedFile: '', repolink: '', YoutubeLink: ''
     });
-
     const classes = useStyles();
+
+    if (isLoading) return "Loading..."
+    if (!isAuthenticated) return window.location.href = "/"
+
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
         const list = [...inputList];
@@ -52,8 +55,16 @@ const ExperienceForm = () => {
         }
 
         const data = { ...postData, TeamDetails: [...inputList], username: user.nickname }
+        const token = await getAccessTokenSilently()
 
-        axios.post("/create-new-hackathon", { data }).then(() => {
+        axios({
+            method: "POST",
+            url: "/create-new-hackathon",
+            headers: {
+                "authorization": `Bearer ${token}`
+            },
+            data
+        }).then(() => {
             window.location.href = "/projects"
         }).catch(err => {
             console.log(err.response)

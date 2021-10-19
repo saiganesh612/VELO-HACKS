@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Hackathon = require("../models/hackathon")
 const Requirement = require("../models/requirement")
+const validateUser = require("../middlewares/user.validator")
 
-router.post("/create-new-hackathon", async (req, res) => {
-    const info = req.body.data;
+router.post("/create-new-hackathon", ...validateUser(), async (req, res) => {
+    const info = req.body;
     try {
         if (!Object.keys(info).length) throw "No information is given."
 
@@ -29,8 +30,8 @@ router.post("/create-new-hackathon", async (req, res) => {
     }
 })
 
-router.post("/create-new-requirement", async (req, res) => {
-    const info = req.body.data
+router.post("/create-new-requirement", ...validateUser(), async (req, res) => {
+    const info = req.body
     try {
         if (!Object.keys(info).length) throw "No data is passed."
 
