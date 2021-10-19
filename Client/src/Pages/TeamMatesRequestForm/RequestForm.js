@@ -8,7 +8,10 @@ import { useAuth0 } from "@auth0/auth0-react"
 const RequestForm = () => {
     const [postData, setPostData] = useState({ Hackerthonname: '', Organizer: '', eventDate: '', requirements: '', projectTheme: '', techStack: '', });
     const classes = useStyles();
-    const { user } = useAuth0()
+    const { user, isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0()
+
+    if (isLoading) return "Loading..."
+    if (!isAuthenticated) return window.location.href = "/"
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,7 +24,16 @@ const RequestForm = () => {
         }
 
         const data = { ...postData, username: user.nickname }
-        axios.post("/create-new-requirement", { data })
+        const token = await getAccessTokenSilently()
+
+        axios({
+            method: "POST",
+            url: "/create-new-requirement",
+            headers: {
+                "authorization": `Bearer ${token}`
+            },
+            data
+        })
             .then(() => window.location.href = "/team-feed")
             .catch(err => {
                 console.log(err.response)

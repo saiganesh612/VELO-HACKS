@@ -18,8 +18,7 @@ const validateUser = () => {
         validate,
         function (err, req, res, next) {
             if (err.name === 'UnauthorizedError') {
-                res.status(err.status).send({ message: err.message })
-                console.log(err)
+                res.status(err.status).send({ message: err.message, code: err.code })
                 return
             }
             next()

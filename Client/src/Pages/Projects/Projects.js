@@ -4,7 +4,7 @@ import axios from "axios"
 
 const Projects = () => {
     const [feed, setFeed] = useState([]);
-    const { isAuthenticated, user, error, getAccessTokenSilently } = useAuth0();
+    const { isAuthenticated, user, error } = useAuth0();
 
     useEffect(() => {
         if (error) {
@@ -16,26 +16,13 @@ const Projects = () => {
                 .then((res) => console.log(res.data.message))
                 .catch(err => console.log(err.response))
         }
-    }, [user])
+    }, [error, isAuthenticated, user])
 
     useEffect(() => {
-
-        const x = async () => {
-            // const token = await getAccessTokenSilently()
-            axios({
-                method: "GET",
-                url: "/get-feed",
-                // headers: {
-                //     "authorization": `Bearer ${token}`
-                // }
-            }).then(res => {
-                const data = res.data.feed
-                setFeed(data)
-            }).catch(err => {
-                console.log(err.response)
-            })
-        }
-        x()
+        axios.get("/get-feed").then(res => {
+            const data = res.data.feed
+            setFeed(data)
+        }).catch(err => console.log(err.response.data))
     }, [])
 
     return (
