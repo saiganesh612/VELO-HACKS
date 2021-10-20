@@ -6,11 +6,13 @@ const validateUser = require("../middlewares/user.validator")
 
 router.post("/create-new-hackathon", ...validateUser(), async (req, res) => {
     const info = req.body;
+    console.log('info',info);
     try {
         if (!Object.keys(info).length) throw "No information is given."
 
         const newHack = new Hackathon({
             username: info.username,
+            profileImage: info.profileImage,
             hackathon_name: info.Hackerthonname,
             organiser: info.Origaniser,
             date: info.eventDate,
@@ -23,6 +25,7 @@ router.post("/create-new-hackathon", ...validateUser(), async (req, res) => {
             team: info.TeamDetails
         })
         await newHack.save();
+
         res.status(200).json({ message: "Success" })
     } catch (err) {
         console.log(err)
@@ -37,6 +40,7 @@ router.post("/create-new-requirement", ...validateUser(), async (req, res) => {
 
         const newRequire = new Requirement({
             username: info.username,
+            profileImage: info.profileImage,
             hackathon_name: info.Hackerthonname,
             organiser: info.Organizer,
             date: info.eventDate,

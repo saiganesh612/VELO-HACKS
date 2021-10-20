@@ -37,7 +37,7 @@ const ExperienceForm = () => {
     const handleAddClick = () => {
         setInputList([...inputList, { name: "", linkedinUrl: "" }]);
     };
-
+    console.log('data',postData)
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -54,9 +54,9 @@ const ExperienceForm = () => {
             return
         }
 
-        const data = { ...postData, TeamDetails: [...inputList], username: user.nickname }
+        const data = { ...postData, TeamDetails: [...inputList], username: user.nickname,profileImage : user.picture }
         const token = await getAccessTokenSilently()
-
+       
         axios({
             method: "POST",
             url: "/create-new-hackathon",

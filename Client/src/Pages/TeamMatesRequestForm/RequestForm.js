@@ -23,7 +23,7 @@ const RequestForm = () => {
             return
         }
 
-        const data = { ...postData, username: user.nickname }
+        const data = { ...postData, username: user.nickname , profileImage : user.picture }
         const token = await getAccessTokenSilently()
 
         axios({

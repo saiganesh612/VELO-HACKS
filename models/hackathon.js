@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const hackathonSchema = new mongoose.Schema({
     username: String,
+    profileImage:String,
     hackathon_name: String,
     organiser: String,
     date: Date,

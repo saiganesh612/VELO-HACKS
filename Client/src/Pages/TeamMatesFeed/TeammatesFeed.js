@@ -11,7 +11,7 @@ const TeammatesFeed = () => {
             console.log(err.response)
         })
     }, [])
-
+    console.log('data',teamFeed)
     return (
         <div>
             TEAM MATES FEED HERE
