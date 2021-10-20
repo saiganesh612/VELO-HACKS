@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, Button } from 'react-bootstrap';
-import FileBase from 'react-file-base64';
 import useStyles from './styles.js'
 import { Container } from 'react-bootstrap';
 import axios from "axios"
@@ -41,7 +40,7 @@ const ExperienceForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const satisfy = !postData.Hackerthonname || !postData.Organizer || !postData.eventDate || !postData.detailedDescription
+        const satisfy = !postData.Hackerthonname || !postData.Organizer || !postData.eventDate || !postData.detailedDescription || !postData.selectedFile
             || !postData.BriefDescription || !postData.projectTheme || !postData.techStack || !postData.repolink || !postData.YoutubeLink
         if (satisfy) {
             alert("Enter each ans every field...")
@@ -54,17 +53,43 @@ const ExperienceForm = () => {
             return
         }
 
-        const data = { ...postData, TeamDetails: [...inputList], username: user.nickname, profileImage: user.picture, uploadTime: new Date() }
+        const allowedFormats = ['jpeg', 'jpg', 'png']
+        const coverPic = postData.selectedFile
+        const type = coverPic.type.split("/")[1]
+        if (!allowedFormats.includes(type)) {
+            setPostData({ ...postData, selectedFile: '' })
+            alert("Only 'JPEG', 'JPG', 'PNG' formats are allowed.")
+            return
+        }
+
+        const formData = new FormData()
+        formData.append("Hackerthonname", postData.Hackerthonname)
+        formData.append("Organizer", postData.Organizer)
+        formData.append("eventDate", postData.eventDate)
+        formData.append("detailedDescription", postData.detailedDescription)
+        formData.append("selectedFile", postData.selectedFile)
+        formData.append("BriefDescription", postData.BriefDescription)
+        formData.append("projectTheme", postData.projectTheme)
+        formData.append("techStack", postData.techStack)
+        formData.append("repolink", postData.repolink)
+        formData.append("YoutubeLink", postData.YoutubeLink)
+        formData.append("TeamDetails", JSON.stringify(inputList))
+        formData.append("username", user.nickname)
+        formData.append("profileImage", user.picture)
+        formData.append("uploadTime", new Date())
+
         const token = await getAccessTokenSilently()
 
         axios({
             method: "POST",
             url: "/create-new-hackathon",
+            data: formData,
             headers: {
-                "authorization": `Bearer ${token}`
+                "authorization": `Bearer ${token}`,
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
             },
-            data
-        }).then(() => {
+        }).then((res) => {
+            console.log(res)
             window.location.href = "/projects"
         }).catch(err => {
             console.log(err.response)
@@ -203,7 +228,7 @@ const ExperienceForm = () => {
                         })}
 
                         <div className={classes.fileInput}>
-                            <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
+                            <input type="file" accept="image/*" onChange={(e) => setPostData({ ...postData, selectedFile: e.target.files[0] })} />
                         </div>
                         <Row>
                             <Col>
