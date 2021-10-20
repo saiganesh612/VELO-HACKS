@@ -64,6 +64,7 @@ router.post("/create-new-comment", ...validateUser(), async (req, res) => {
 
         const newComment = new Comment({
             username: info.username,
+            profile:info.profile,
             hackathon_id: info.hackathon_id,
             comment: info.comment,
             time: info.time

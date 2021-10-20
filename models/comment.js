@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema({
     username: String,
+    profile: String,
     hackathon_id: String,
     isReplied: {
         type: Boolean,
