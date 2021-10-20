@@ -4,8 +4,11 @@ const Comment = require("../models/comment")
 const Hackathon = require("../models/hackathon")
 const Requirement = require("../models/requirement")
 const validateUser = require("../middlewares/user.validator")
+const multer = require("multer")
+const { storage } = require("../cloudinary")
+const upload = multer({ storage })
 
-router.post("/create-new-hackathon", ...validateUser(), async (req, res) => {
+router.post("/create-new-hackathon", ...validateUser(), upload.any(), async (req, res) => {
     const info = req.body;
 
     try {
@@ -24,8 +27,10 @@ router.post("/create-new-hackathon", ...validateUser(), async (req, res) => {
             stack: info.techStack,
             repo_link: info.repolink,
             youtube_link: info.YoutubeLink,
-            team: info.TeamDetails
+            team: JSON.parse(info.TeamDetails)
         })
+        newHack.cover_pic = { url: req.files[0].path, filename: req.files[0].filename }
+
         await newHack.save();
         res.status(200).json({ message: "Success" })
     } catch (err) {

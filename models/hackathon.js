@@ -4,6 +4,10 @@ const hackathonSchema = new mongoose.Schema({
     username: String,
     profileImage: String,
     hackathon_name: String,
+    cover_pic: {
+        url: String,
+        filename: String
+    },
     organiser: String,
     date: Date,
     upload_time: Date,
