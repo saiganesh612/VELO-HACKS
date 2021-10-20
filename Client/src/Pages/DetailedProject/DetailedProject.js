@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
+import Reply from '../../Components/Modal/Modal';
 import axios from 'axios';
+import moment from 'moment';
 import './styles.css'
 import { useAuth0 } from "@auth0/auth0-react"
-
-const DetailedProject = () => {
+const DetailedProject = (props) => {
   const params = useParams();
   const [project, setProject] = useState({});
   const [comment, setComment] = useState("")
   const [comments, setComments] = useState([])
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0()
-
+  
   useEffect(() => {
     axios.get(`/get-project/${params.id}`)
       .then(res => {
@@ -35,9 +36,9 @@ const DetailedProject = () => {
       alert("Please enter any message inorder to post a new comment.");
       return
     }
-
+    console.log('commenrs',comments)
     const token = await getAccessTokenSilently();
-    const data = { username: user.nickname, hackathon_id: params.id, comment, time: new Date() }
+    const data = { username: user.nickname,profile: user.picture, hackathon_id: params.id, comment, time: new Date() }
 
     axios({
       method: "POST",
@@ -82,7 +83,7 @@ const DetailedProject = () => {
                       {project?.username}
                     </li>
                     <li className="d-flex align-items-center"><i className="bi bi-person"></i> {project?.theme}</li>
-                    <li className="d-flex align-items-center"><i className="bi bi-chat-dots"></i> 12 Comments</li>
+                    <li className="d-flex align-items-center"><i className="bi bi-chat-dots"></i> {comments.length} Comments</li>
                   </ul>
                 </div>
 
@@ -112,145 +113,150 @@ const DetailedProject = () => {
                 </div>
 
               </article>
+
+
+              <div className="sidebar">
+
+              <h3 className="sidebar-title">Recent Posts</h3>
+              <div className="sidebar-item recent-posts">
+                <div className="post-item clearfix">
+                  <img src="" alt="" />
+                  <h4><a href="blog-single.html">Nihil blanditiis at in nihil autem</a></h4>
+                  <time dateTime="2020-01-01">Jan 1, 2020</time>
+                </div>
+
+                <div className="post-item clearfix">
+                  <img src="" alt="" />
+                  <h4><a href="blog-single.html">Quidem autem et impedit</a></h4>
+                  <time dateTime="2020-01-01">Jan 1, 2020</time>
+                </div>
+
+                <div className="post-item clearfix">
+                  <img src="" alt="" />
+                  <h4><a href="blog-single.html">Id quia et et ut maxime similique occaecati ut</a></h4>
+                  <time dateTime="2020-01-01">Jan 1, 2020</time>
+                </div>
+
+                <div className="post-item clearfix">
+                  <img src="" alt="" />
+                  <h4><a href="blog-single.html">Laborum corporis quo dara net para</a></h4>
+                  <time dateTime="2020-01-01">Jan 1, 2020</time>
+                </div>
+
+                <div className="post-item clearfix">
+                  <img src="" alt="" />
+                  <h4><a href="blog-single.html">Et dolores corrupti quae illo quod dolor</a></h4>
+                  <time dateTime="2020-01-01">Jan 1, 2020</time>
+                </div>
+
+              </div>
+
+              <h3 className="sidebar-title">Tags</h3>
+              <div className="sidebar-item tags">
+                <ul>
+                  <li><a href="#">App</a></li>
+                  <li><a href="#">IT</a></li>
+                  <li><a href="#">Business</a></li>
+                  <li><a href="#">Mac</a></li>
+                  <li><a href="#">Design</a></li>
+                  <li><a href="#">Office</a></li>
+                  <li><a href="#">Creative</a></li>
+                  <li><a href="#">Studio</a></li>
+                  <li><a href="#">Smart</a></li>
+                  <li><a href="#">Tips</a></li>
+                  <li><a href="#">Marketing</a></li>
+                </ul>
+              </div>
+
+            </div>
+              
+            </div>
+            <div className="col-lg-4">
               <div className="blog-comments">
-
-
-                <div className="reply-form">
-                  <h4>Leave a Reply</h4>
-                  <p>Your email address will not be published. Required fields are marked * </p>
-                  <form onSubmit={handleComment}>
-                    <div className="row">
-                      <div className="col form-group">
-                        <textarea name="comment" className="form-control" id="comment" placeholder="Your Comment*"
-                          onChange={(e) => setComment(e.target.value)} required>
-                        </textarea>
-                      </div>
+              <div className="reply-form">
+                <h4>Leave a Reply</h4>
+                <p>Your email address will not be published. Required fields are marked * </p>
+                <form onSubmit={handleComment}>
+                  <div className="row">
+                    <div className="col form-group">
+                      <textarea name="comment" className="form-control" id="comment" placeholder="Your Comment*"
+                        onChange={(e) => setComment(e.target.value)} required>
+                      </textarea>
                     </div>
-                    <button type="submit" className="btn btn-primary">Post Comment</button>
-                  </form>
-                </div>
+                  </div>
+                  <button type="submit" className="btn btn-primary">Post Comment</button>
+                </form>
+              </div>
 
-                <br />
-                <h4 className="comments-count">8 Comments</h4>
+              <br />
+              <h4 className="comments-count">{comments.length} Comments</h4>
 
-                <div id="comment-1" className="comment">
-                  <div className="d-flex">
-                    <div className="comment-img"><img src="assets/img/blog/comments-1.jpg" alt="" /></div>
+                {comments?.map(data=>{
+                  return(
                     <div>
-                      <h5><a href="">Georgia Reader</a> <a href="#" className="reply"><i className="bi bi-reply-fill"></i> Reply</a></h5>
-                      <time dateTime="2020-01-01">01 Jan, 2020</time>
-                      <p>
-                        Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad aut sapiente quis molestiae est qui cum soluta.
-                        Vero aut rerum vel. Rerum quos laboriosam placeat ex qui. Sint qui facilis et.
-                      </p>
+                        <div id="comment-1" className="comment">
+                          <div className="d-flex">
+                            <div className="comment-img"><img style={{width:"40px",borderRadius:"50%",marginTop:"5px",border:"2px solid grey"}} src={data.profile} alt="" /></div>
+                            <div>
+                              <h5>{data.username}<i className="bi bi-reply-fill"></i> <Reply reply="Reply" replyTo={data.username}/></h5>
+                              <time dateTime="2020-01-01">{moment(data.time).fromNow()}</time>
+                              <p>
+                                {data.comment}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
                     </div>
+                  )
+                })}
+
+              {/* 
+              <div id="comment-2" className="comment">
+                <div className="d-flex">
+                  <div className="comment-img"><img src="assets/img/blog/comments-2.jpg" alt="" /></div>
+                  <div>
+                    <h5><a href="">Aron Alvarado</a> <a href="#" className="reply"><i className="bi bi-reply-fill"></i> Reply</a></h5>
+                    <time dateTime="2020-01-01">01 Jan, 2020</time>
+                    <p>
+                      Ipsam tempora sequi voluptatem quis sapiente non. Autem itaque eveniet saepe. Officiis illo ut beatae.
+                    </p>
                   </div>
                 </div>
 
-                <div id="comment-2" className="comment">
+                <div id="comment-reply-1" className="comment comment-reply">
                   <div className="d-flex">
-                    <div className="comment-img"><img src="assets/img/blog/comments-2.jpg" alt="" /></div>
+                    <div className="comment-img"><img src="assets/img/blog/comments-3.jpg" alt="" /></div>
                     <div>
-                      <h5><a href="">Aron Alvarado</a> <a href="#" className="reply"><i className="bi bi-reply-fill"></i> Reply</a></h5>
+                      <h5><a href="">Lynda Small</a> <a href="#" className="reply"><i className="bi bi-reply-fill"></i> Reply</a></h5>
                       <time dateTime="2020-01-01">01 Jan, 2020</time>
                       <p>
-                        Ipsam tempora sequi voluptatem quis sapiente non. Autem itaque eveniet saepe. Officiis illo ut beatae.
+                        Enim ipsa eum fugiat fuga repellat. Commodi quo quo dicta. Est ullam aspernatur ut vitae quia mollitia id non. Qui ad quas nostrum rerum sed necessitatibus aut est. Eum officiis sed repellat maxime vero nisi natus. Amet nesciunt nesciunt qui illum omnis est et dolor recusandae.
+
+                        Recusandae sit ad aut impedit et. Ipsa labore dolor impedit et natus in porro aut. Magnam qui cum. Illo similique occaecati nihil modi eligendi. Pariatur distinctio labore omnis incidunt et illum. Expedita et dignissimos distinctio laborum minima fugiat.
+
+                        Libero corporis qui. Nam illo odio beatae enim ducimus. Harum reiciendis error dolorum non autem quisquam vero rerum neque.
                       </p>
                     </div>
                   </div>
 
-                  <div id="comment-reply-1" className="comment comment-reply">
+                  <div id="comment-reply-2" className="comment comment-reply">
                     <div className="d-flex">
-                      <div className="comment-img"><img src="assets/img/blog/comments-3.jpg" alt="" /></div>
+                      <div className="comment-img"><img src="assets/img/blog/comments-4.jpg" alt="" /></div>
                       <div>
-                        <h5><a href="">Lynda Small</a> <a href="#" className="reply"><i className="bi bi-reply-fill"></i> Reply</a></h5>
+                        <h5><a href="">Sianna Ramsay</a> <a href="#" className="reply"><i className="bi bi-reply-fill"></i> Reply</a></h5>
                         <time dateTime="2020-01-01">01 Jan, 2020</time>
                         <p>
-                          Enim ipsa eum fugiat fuga repellat. Commodi quo quo dicta. Est ullam aspernatur ut vitae quia mollitia id non. Qui ad quas nostrum rerum sed necessitatibus aut est. Eum officiis sed repellat maxime vero nisi natus. Amet nesciunt nesciunt qui illum omnis est et dolor recusandae.
-
-                          Recusandae sit ad aut impedit et. Ipsa labore dolor impedit et natus in porro aut. Magnam qui cum. Illo similique occaecati nihil modi eligendi. Pariatur distinctio labore omnis incidunt et illum. Expedita et dignissimos distinctio laborum minima fugiat.
-
-                          Libero corporis qui. Nam illo odio beatae enim ducimus. Harum reiciendis error dolorum non autem quisquam vero rerum neque.
+                          Et dignissimos impedit nulla et quo distinctio ex nemo. Omnis quia dolores cupiditate et. Ut unde qui eligendi sapiente omnis ullam. Placeat porro est commodi est officiis voluptas repellat quisquam possimus. Perferendis id consectetur necessitatibus.
                         </p>
                       </div>
                     </div>
 
-                    <div id="comment-reply-2" className="comment comment-reply">
-                      <div className="d-flex">
-                        <div className="comment-img"><img src="assets/img/blog/comments-4.jpg" alt="" /></div>
-                        <div>
-                          <h5><a href="">Sianna Ramsay</a> <a href="#" className="reply"><i className="bi bi-reply-fill"></i> Reply</a></h5>
-                          <time dateTime="2020-01-01">01 Jan, 2020</time>
-                          <p>
-                            Et dignissimos impedit nulla et quo distinctio ex nemo. Omnis quia dolores cupiditate et. Ut unde qui eligendi sapiente omnis ullam. Placeat porro est commodi est officiis voluptas repellat quisquam possimus. Perferendis id consectetur necessitatibus.
-                          </p>
-                        </div>
-                      </div>
-
-                    </div>
-
                   </div>
 
                 </div>
+
+              </div> */}
               </div>
-            </div>
-            <div className="col-lg-4">
-
-              <div className="sidebar">
-
-                <h3 className="sidebar-title">Recent Posts</h3>
-                <div className="sidebar-item recent-posts">
-                  <div className="post-item clearfix">
-                    <img src="/assets/img/blog/blog-recent-1.jpg" alt="" />
-                    <h4><a href="blog-single.html">Nihil blanditiis at in nihil autem</a></h4>
-                    <time dateTime="2020-01-01">Jan 1, 2020</time>
-                  </div>
-
-                  <div className="post-item clearfix">
-                    <img src="/assets/img/blog/blog-recent-2.jpg" alt="" />
-                    <h4><a href="blog-single.html">Quidem autem et impedit</a></h4>
-                    <time dateTime="2020-01-01">Jan 1, 2020</time>
-                  </div>
-
-                  <div className="post-item clearfix">
-                    <img src="/assets/img/blog/blog-recent-3.jpg" alt="" />
-                    <h4><a href="blog-single.html">Id quia et et ut maxime similique occaecati ut</a></h4>
-                    <time dateTime="2020-01-01">Jan 1, 2020</time>
-                  </div>
-
-                  <div className="post-item clearfix">
-                    <img src="/assets/img/blog/blog-recent-4.jpg" alt="" />
-                    <h4><a href="blog-single.html">Laborum corporis quo dara net para</a></h4>
-                    <time dateTime="2020-01-01">Jan 1, 2020</time>
-                  </div>
-
-                  <div className="post-item clearfix">
-                    <img src="/assets/img/blog/blog-recent-5.jpg" alt="" />
-                    <h4><a href="blog-single.html">Et dolores corrupti quae illo quod dolor</a></h4>
-                    <time dateTime="2020-01-01">Jan 1, 2020</time>
-                  </div>
-
-                </div>
-
-                <h3 className="sidebar-title">Tags</h3>
-                <div className="sidebar-item tags">
-                  <ul>
-                    <li><a href="#">App</a></li>
-                    <li><a href="#">IT</a></li>
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Mac</a></li>
-                    <li><a href="#">Design</a></li>
-                    <li><a href="#">Office</a></li>
-                    <li><a href="#">Creative</a></li>
-                    <li><a href="#">Studio</a></li>
-                    <li><a href="#">Smart</a></li>
-                    <li><a href="#">Tips</a></li>
-                    <li><a href="#">Marketing</a></li>
-                  </ul>
-                </div>
-
-              </div>
-
             </div>
           </div>
 
