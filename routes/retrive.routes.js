@@ -29,8 +29,9 @@ router.get("/get-project/:projectId", async (req, res) => {
     try {
         const project = await Hackathon.findOne({ _id: { $eq: projectId } })
         if (!project) throw "Their is no project associated with this id."
-        const comments = await Comment.find({ $and: [{ hackathon_id: { $eq: projectId } }, { isReplied: false }] }).populate("subComments")
-        res.status(200).json({ message: "Retrived", project, comments })
+        const comments = await Comment.find({ $and: [{ hackathon_id: { $eq: projectId } }, { isReplied: false }] })
+            .populate({ path: "subComments", model: "Comment" })
+        res.status(200).json({ message: "Retrived", project, comments: comments.reverse() })
     } catch (err) {
         console.log(err)
         res.status(400).json({ message: err })

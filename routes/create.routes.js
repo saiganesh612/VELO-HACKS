@@ -69,15 +69,46 @@ router.post("/create-new-comment", ...validateUser(), async (req, res) => {
 
         const newComment = new Comment({
             username: info.username,
-            profile:info.profile,
+            profile: info.profile,
             hackathon_id: info.hackathon_id,
             comment: info.comment,
             time: info.time
         })
         await newComment.save()
 
-        const comments = await Comment.find({ $and: [{ hackathon_id: { $eq: info.hackathon_id } }, { isReplied: false }] }).populate("subComments");
-        res.status(200).json({ message: "Success", comments });
+        const comments = await Comment.find({ $and: [{ hackathon_id: { $eq: info.hackathon_id } }, { isReplied: false }] })
+            .populate({ path: "subComments", model: "Comment" })
+        res.status(200).json({ message: "Success", comments: comments.reverse() });
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: err })
+    }
+})
+
+router.post("/create-new-subComment", ...validateUser(), async (req, res) => {
+    const info = req.body
+    try {
+        if (!Object.keys(info).length) throw "Data is missing."
+
+        const comment = await Comment.findOne({ _id: { $eq: info.replyTo } })
+        if (!comment) throw "Their is comment associated with this reference."
+
+        const newComment = new Comment({
+            username: info.username,
+            profile: info.profile,
+            hackathon_id: info.hackathon_id,
+            comment: info.comment,
+            time: info.time,
+            isReplied: true
+        })
+        comment.subComments.push(newComment._id)
+
+        await newComment.save()
+        await comment.save()
+
+        const comments = await Comment.find({ $and: [{ hackathon_id: { $eq: info.hackathon_id } }, { isReplied: false }] })
+            .populate({ path: "subComments", model: "Comment" });
+        res.status(200).json({ message: "Success", comments: comments.reverse() });
     } catch (err) {
         console.log(err)
         res.status(500).json({ message: err })
