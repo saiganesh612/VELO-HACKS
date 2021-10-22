@@ -288,9 +288,10 @@
     color: #fff;
   }
   .blog .sidebar {
-    padding: 30px;
+    padding: 20px;
     margin: 0 0 60px 20px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    width: 380px;
   }
   .blog .sidebar .sidebar-title {
     font-size: 20px;

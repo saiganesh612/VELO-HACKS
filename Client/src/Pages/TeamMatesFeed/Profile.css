@@ -1,0 +1,52 @@
+
+.card2 {
+    margin-top: "30px";
+    width: 380px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 8px;
+    background-color: #fff;
+    position: relative;
+    max-height: 370px
+}
+
+.upper {
+    height: 100px
+}
+
+.upper img {
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px
+}
+
+.user {
+    position: relative
+}
+
+.profile2 img {
+    height: 85px !important;
+    width: 85px !important;
+    /* margin-top: 2px !important */
+}
+
+.profile2 {
+    position: absolute !important;
+    top: -50px !important;
+    left: 38% !important;
+    height: 90px !important;
+    width: 90px !important;
+    border: 3px solid #fff !important;
+    border-radius: 50% !important
+}
+
+.follow {
+    border-radius: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 35px
+}
+
+.stats span {
+    font-size: 29px
+}

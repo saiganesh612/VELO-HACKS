@@ -52,7 +52,8 @@ router.post("/create-new-requirement", ...validateUser(), async (req, res) => {
             date: info.eventDate,
             theme: info.projectTheme,
             stack: info.techStack,
-            requirement: info.requirements
+            requirement: info.requirements,
+            linkedin:info.linkedin
         })
         await newRequire.save()
         res.status(200).json({ message: "Success" })

@@ -31,6 +31,8 @@ export default makeStyles((theme) => ({
     about:{
         color:"#150050",
         fontSize:"60px",
-        fontWeight:"bold" 
+        fontWeight:"bold",
+        // borderBottom:"18px solid pink",
+        // lineHeight:"1pc"
     }
 }))
