@@ -6,11 +6,12 @@ import moment from 'moment';
 import './styles.css'
 import { useAuth0 } from "@auth0/auth0-react"
 
-const DetailedProject = (props) => {
+const DetailedProject = () => {
   const params = useParams();
   const [project, setProject] = useState({});
   const [comment, setComment] = useState("")
   const [comments, setComments] = useState([])
+  const [posts, setPosts] = useState([])
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0()
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const DetailedProject = (props) => {
       .then(res => {
         setProject(res.data.project)
         setComments(res.data.comments)
+        setPosts(res.data.posts)
       })
       .catch(err => {
         console.log(err.response.data)
@@ -56,7 +58,9 @@ const DetailedProject = (props) => {
       console.log(err)
     })
   }
-console.log("comments",comments)
+
+  console.log("related posts ", posts)
+
   return (
     <div>
       <section id="blog" className="blog">
@@ -146,23 +150,6 @@ console.log("comments",comments)
                   </div>
 
                 </div>
-
-                <h3 className="sidebar-title">Tags</h3>
-                <div className="sidebar-item tags">
-                  <ul>
-                    <li><a href="#">App</a></li>
-                    <li><a href="#">IT</a></li>
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Mac</a></li>
-                    <li><a href="#">Design</a></li>
-                    <li><a href="#">Office</a></li>
-                    <li><a href="#">Creative</a></li>
-                    <li><a href="#">Studio</a></li>
-                    <li><a href="#">Smart</a></li>
-                    <li><a href="#">Tips</a></li>
-                    <li><a href="#">Marketing</a></li>
-                  </ul>
-                </div>
               </div>
             </div>
 
@@ -214,34 +201,28 @@ console.log("comments",comments)
                         </div>
                       </div>
                       <b> <p>{data.subComments.length} replies</p> </b>
-                      <div style={{maxHeight:"170px",overflowY:"auto"}}>
-                      {data.subComments.map(sub=>{
-                        return(
-                          <div id="comment-reply-1" className="comment comment-reply" >
-                            <div className="d-flex">
-                              <div className="comment-img">
-                              <img style={{ width: "40px", borderRadius: "50%", marginTop: "5px", border: "2px solid grey" }}
-                              src={data.profile} alt="profile" />
-                              </div>
-                              <div>
-                                <h5><a href="">{sub.username}</a> 
-                                </h5>
-
-                                <time dateTime="2020-01-01">{moment(sub.time).fromNow()}</time>
-                                <p>
-                                  {sub.comment}
-                                </p>
+                      <div style={{ maxHeight: "170px", overflowY: "auto" }}>
+                        {data.subComments.map((sub, index) => {
+                          return (
+                            <div key={index} id="comment-reply-1" className="comment comment-reply" >
+                              <div className="d-flex">
+                                <div className="comment-img">
+                                  <img style={{ width: "40px", borderRadius: "50%", marginTop: "5px", border: "2px solid grey" }}
+                                    src={data.profile} alt="profile" />
+                                </div>
+                                <div>
+                                  <h5>{sub.username}</h5>
+                                  <time dateTime="2020-01-01">{moment(sub.time).fromNow()}</time>
+                                  <p> {sub.comment} </p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )
-                      })}
-                    </div> 
+                          )
+                        })}
+                      </div>
                     </div>
                   )
                 })}
-
-               
               </div>
             </div>
           </div>

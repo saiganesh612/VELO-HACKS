@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Button,Spinner } from 'react-bootstrap';
+import { Card, Row, Col, Button, Spinner } from 'react-bootstrap';
 import useStyles from './styles.js'
 import { Container } from 'react-bootstrap';
 import axios from "axios"
@@ -8,7 +8,7 @@ import { EditorState } from 'draft-js';
 import { ContentState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import LoadingOverlay from 'react-loading-overlay';
- 
+
 // import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 const ExperienceForm = () => {
@@ -20,7 +20,7 @@ const ExperienceForm = () => {
     let _contentState = ContentState.createFromText('Sample content state');
     const raw = convertToRaw(_contentState)
     const [contentState, setContentState] = useState(raw) // ContentState JSON
-    console.log("raw",raw)
+    console.log("raw", raw)
 
     const [inputList, setInputList] = useState([{ name: "", linkedinUrl: "" }]);
     const [postData, setPostData] = useState({
@@ -51,7 +51,7 @@ const ExperienceForm = () => {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        isActive= true
+        isActive = true
         const satisfy = !postData.Hackerthonname || !postData.Organizer || !postData.eventDate || !postData.detailedDescription || !postData.selectedFile
             || !postData.BriefDescription || !postData.projectTheme || !postData.techStack || !postData.repolink || !postData.YoutubeLink
         if (satisfy) {
@@ -112,71 +112,51 @@ const ExperienceForm = () => {
 
     return (
         <>
-        
-        {
-        (!isAuthenticated)?(
-            <>
-             <LoadingOverlay
-            active={true}
-            spinner
-            text='Please signin to post your experience'
-            >
-            <div style={{height:"90vh"}}>
-                
-            </div>
-            </LoadingOverlay>
-            </>
-        ):(
-            isLoading?(
-                <>
-                <LoadingOverlay
-               active={true}
-               spinner
-               text='Loading....'
-               >
-               <div style={{height:"100vh"}}>
-                   
-               </div>
-               </LoadingOverlay>
-               </>
-            ):(
-                <LoadingOverlay
-            active={isActive}
-            spinner
-            text='Loading your content...'
-            >
-            
-            <div className={classes.eventForm}>
-                <Container>
-              
-               
-                    <Card className="shadow p-3 mb-5 bg-white rounded" >
-                        <h2 align="center"> Post your Experience</h2>
-                        <br />
-                        <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                            <Row>
-                                <Col sm={6}>
-                                    <div className="form-floating mb-3">
-                                        <input type="text" className="form-control" name="Hackname" id="floatingInput" placeholder="Reha" value={postData.Hackerthonname} onChange={(e) => setPostData({ ...postData, Hackerthonname: e.target.value })} />
-                                        <label htmlFor="floatingInput">Hackerthon Name</label>
-                                    </div>
-                                </Col>
-                                <Col>
-                                    <div className="form-floating mb-3">
-                                        <input type="text" className="form-control" name="organised" id="floatingInput" placeholder="Reha" value={postData.Organizer} onChange={(e) => setPostData({ ...postData, Organizer: e.target.value })} />
-                                        <label htmlFor="floatingInput">Organizer</label>
-                                    </div>
-                                </Col>
-                                <Col>
-                                    <div className="form-floating mb-3">
-                                        <input type="date" className="form-control" name="eventDate" id="floatingInput" value={postData.eventDate} onChange={(e) => setPostData({ ...postData, eventDate: e.target.value })} />
-                                        <label htmlFor="floatingInput">Date of Hackerthon</label>
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row>
-    
-                                {/* <div className="form-floating mb-3">
+            {
+                (!isAuthenticated) ? (
+                    <>
+                        <LoadingOverlay active={true} spinner text='Please signin to post your experience'>
+                            <div style={{ height: "90vh" }}></div>
+                        </LoadingOverlay>
+                    </>
+                ) : (
+                    isLoading ? (
+                        <>
+                            <LoadingOverlay active={true} spinner text='Loading....'>
+                                <div style={{ height: "100vh" }}></div>
+                            </LoadingOverlay>
+                        </>
+                    ) : (
+                        <LoadingOverlay active={isActive} spinner text='Loading your content...'>
+                            <div className={classes.eventForm}>
+                                <Container>
+                                    <Card className="shadow p-3 mb-5 bg-white rounded" >
+                                        <h2 align="center"> Post your Experience</h2>
+                                        <br />
+                                        <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                                            <Row>
+                                                <Col sm={6}>
+                                                    <div className="form-floating mb-3">
+                                                        <input type="text" className="form-control" name="Hackname" id="floatingInput" placeholder="Reha" value={postData.Hackerthonname} onChange={(e) => setPostData({ ...postData, Hackerthonname: e.target.value })} />
+                                                        <label htmlFor="floatingInput">Hackerthon Name</label>
+                                                    </div>
+                                                </Col>
+                                                <Col>
+                                                    <div className="form-floating mb-3">
+                                                        <input type="text" className="form-control" name="organised" id="floatingInput" placeholder="Reha" value={postData.Organizer} onChange={(e) => setPostData({ ...postData, Organizer: e.target.value })} />
+                                                        <label htmlFor="floatingInput">Organizer</label>
+                                                    </div>
+                                                </Col>
+                                                <Col>
+                                                    <div className="form-floating mb-3">
+                                                        <input type="date" className="form-control" name="eventDate" id="floatingInput" value={postData.eventDate} onChange={(e) => setPostData({ ...postData, eventDate: e.target.value })} />
+                                                        <label htmlFor="floatingInput">Date of Hackerthon</label>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+
+                                                {/* <div className="form-floating mb-3">
                             <input type="number" className="form-control" name="teamCount" id="floatingInput" value={postData.teamCount} onChange={(e) => setPostData({ ...postData, teamCount: e.target.value })}/>
                             <label for="floatingInput">No. team members</label>
                     </div>
@@ -202,108 +182,108 @@ const ExperienceForm = () => {
                             )
                         })
                     } */}
-                            </Row>
-                            <Row style={{padding:"2px"}}>
-                                <Col style={{border:"1px solid lightgrey"}} >
-                                    <div className="form-floating">
-                                        <textarea className="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{ height: "150px" }} value={postData.detailedDescription} onChange={(e) => setPostData({ ...postData, detailedDescription: e.target.value })}></textarea>
-                                        <label htmlFor="floatingTextarea2">Project Detailed Description</label>
-                                    </div>
-                                     <Editor
-                                        defaultContentState={contentState}
-                                        onContentStateChange={setContentState}
-                                        wrapperClassName="wrapper-class"
-                                        editorClassName="editor-class"
-                                        toolbarClassName="toolbar-class"
-                                    />
-                                </Col>
-                            </Row>
-    
-                            <br />
-                            <Row>
-                                <Col>
-                                    <div className="form-floating">
-                                        <textarea className="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{ height: "60px" }} value={postData.BriefDescription} onChange={(e) => setPostData({ ...postData, BriefDescription: e.target.value })}></textarea>
-                                        <label htmlFor="floatingTextarea2">Project Brief Description(less than 25 words)</label>
-                                    </div>
-                                </Col>
-                            </Row>
-                            <br />
-                            <Row>
-                                <Col>
-                                    <div className="form-floating mb-3">
-                                        <input type="text" className="form-control" name="projecttheme" id="floatingInput" placeholder="Reha" value={postData.projectTheme} onChange={(e) => setPostData({ ...postData, projectTheme: e.target.value })} />
-                                        <label htmlFor="floatingInput">Theme of Project</label>
-                                    </div>
-                                </Col>
-    
-                                <Col>
-                                    <div className="form-floating mb-3">
-                                        <input type="text" className="form-control" name="techstack" id="floatingInput" placeholder="Tech Stack" value={postData.techStack} onChange={(e) => setPostData({ ...postData, techStack: e.target.value })} />
-                                        <label htmlFor="floatingInput">Tech stacks used</label>
-                                    </div>
-                                </Col>
-    
-                                <Col>
-                                    <div className="form-floating mb-3">
-                                        <input type="url" className="form-control" name="repolink" id="floatingInput" placeholder="Repo Link" value={postData.repolink} onChange={(e) => setPostData({ ...postData, repolink: e.target.value })} />
-                                        <label htmlFor="floatingInput">Repository Link</label>
-                                    </div>
-                                </Col>
-                                <Col>
-                                    <div className="form-floating mb-3">
-                                        <input type="url" className="form-control" name="youtubelink" id="floatingInput" placeholder="Youtube Link" value={postData.YoutubeLink} onChange={(e) => setPostData({ ...postData, YoutubeLink: e.target.value })} />
-                                        <label htmlFor="floatingInput">Youtube link(Hackerthon experience)</label>
-                                    </div>
-                                </Col>
-                            </Row>
-    
-                            {inputList.map((x, i) => {
-                                return (
-                                    <Row key={i}>
-                                        <Col>
-                                            <div className="form-floating mb-3">
-                                                <input type="text" className="form-control" name="name" id="floatingInput" placeholder="Team mate" value={x.name} onChange={e => handleInputChange(e, i)} />
-                                                <label htmlFor="floatingInput">Enter Team mate name</label>
+                                            </Row>
+                                            <Row style={{ padding: "2px" }}>
+                                                <Col style={{ border: "1px solid lightgrey" }} >
+                                                    <div className="form-floating">
+                                                        <textarea className="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{ height: "150px" }} value={postData.detailedDescription} onChange={(e) => setPostData({ ...postData, detailedDescription: e.target.value })}></textarea>
+                                                        <label htmlFor="floatingTextarea2">Project Detailed Description</label>
+                                                    </div>
+                                                    <Editor
+                                                        defaultContentState={contentState}
+                                                        onContentStateChange={setContentState}
+                                                        wrapperClassName="wrapper-class"
+                                                        editorClassName="editor-class"
+                                                        toolbarClassName="toolbar-class"
+                                                    />
+                                                </Col>
+                                            </Row>
+
+                                            <br />
+                                            <Row>
+                                                <Col>
+                                                    <div className="form-floating">
+                                                        <textarea className="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{ height: "60px" }} value={postData.BriefDescription} onChange={(e) => setPostData({ ...postData, BriefDescription: e.target.value })}></textarea>
+                                                        <label htmlFor="floatingTextarea2">Project Brief Description(less than 25 words)</label>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                            <br />
+                                            <Row>
+                                                <Col>
+                                                    <div className="form-floating mb-3">
+                                                        <input type="text" className="form-control" name="projecttheme" id="floatingInput" placeholder="Reha" value={postData.projectTheme} onChange={(e) => setPostData({ ...postData, projectTheme: e.target.value })} />
+                                                        <label htmlFor="floatingInput">Theme of Project</label>
+                                                    </div>
+                                                </Col>
+
+                                                <Col>
+                                                    <div className="form-floating mb-3">
+                                                        <input type="text" className="form-control" name="techstack" id="floatingInput" placeholder="Tech Stack" value={postData.techStack} onChange={(e) => setPostData({ ...postData, techStack: e.target.value })} />
+                                                        <label htmlFor="floatingInput">Tech stacks used</label>
+                                                    </div>
+                                                </Col>
+
+                                                <Col>
+                                                    <div className="form-floating mb-3">
+                                                        <input type="url" className="form-control" name="repolink" id="floatingInput" placeholder="Repo Link" value={postData.repolink} onChange={(e) => setPostData({ ...postData, repolink: e.target.value })} />
+                                                        <label htmlFor="floatingInput">Repository Link</label>
+                                                    </div>
+                                                </Col>
+                                                <Col>
+                                                    <div className="form-floating mb-3">
+                                                        <input type="url" className="form-control" name="youtubelink" id="floatingInput" placeholder="Youtube Link" value={postData.YoutubeLink} onChange={(e) => setPostData({ ...postData, YoutubeLink: e.target.value })} />
+                                                        <label htmlFor="floatingInput">Youtube link(Hackerthon experience)</label>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+
+                                            {inputList.map((x, i) => {
+                                                return (
+                                                    <Row key={i}>
+                                                        <Col>
+                                                            <div className="form-floating mb-3">
+                                                                <input type="text" className="form-control" name="name" id="floatingInput" placeholder="Team mate" value={x.name} onChange={e => handleInputChange(e, i)} />
+                                                                <label htmlFor="floatingInput">Enter Team mate name</label>
+                                                            </div>
+                                                        </Col>
+
+                                                        <Col>
+                                                            <div className="form-floating mb-3">
+                                                                <input type="URL" className="form-control" name="linkedinUrl" id="floatingInput" placeholder="LinkedIn" value={x.linkedinUrl} onChange={e => handleInputChange(e, i)} />
+                                                                <label htmlFor="floatingInput">Enter Linkedin URL</label>
+                                                            </div>
+                                                        </Col>
+                                                        <Col>
+                                                            {inputList.length !== 1 && <button className="btn btn-danger" style={{ margin: "7px" }} onClick={() => handleRemoveClick(i)}>Remove</button>}
+                                                            {inputList.length - 1 === i && <button className="btn btn-success" style={{ margin: "7px" }} onClick={handleAddClick}>Add</button>}
+
+                                                        </Col>
+                                                    </Row>
+                                                );
+                                            })}
+
+                                            <div className={classes.fileInput}>
+                                                <input type="file" accept="image/*" onChange={(e) => setPostData({ ...postData, selectedFile: e.target.files[0] })} />
                                             </div>
-                                        </Col>
-    
-                                        <Col>
-                                            <div className="form-floating mb-3">
-                                                <input type="URL" className="form-control" name="linkedinUrl" id="floatingInput" placeholder="LinkedIn" value={x.linkedinUrl} onChange={e => handleInputChange(e, i)} />
-                                                <label htmlFor="floatingInput">Enter Linkedin URL</label>
-                                            </div>
-                                        </Col>
-                                        <Col>
-                                            {inputList.length !== 1 && <button className="btn btn-danger" style={{ margin: "7px" }} onClick={() => handleRemoveClick(i)}>Remove</button>}
-                                            {inputList.length - 1 === i && <button className="btn btn-success" style={{ margin: "7px" }} onClick={handleAddClick}>Add</button>}
-    
-                                        </Col>
-                                    </Row>
-                                );
-                            })}
-    
-                            <div className={classes.fileInput}>
-                                <input type="file" accept="image/*" onChange={(e) => setPostData({ ...postData, selectedFile: e.target.files[0] })} />
+                                            <Row>
+                                                <Col>
+                                                    <br />
+                                                    <Button className="btn btn-info w-100" size="large" type="submit">Submit</Button>
+                                                </Col>
+
+                                            </Row>
+                                        </form>
+                                    </Card>
+
+                                </Container>
                             </div>
-                            <Row>
-                                <Col>
-                                    <br />
-                                    <Button className="btn btn-info w-100" size="large" type="submit">Submit</Button>
-                                </Col>
-    
-                            </Row>
-                        </form>
-                    </Card>
-                  
-                </Container>
-            </div>
-            </LoadingOverlay>
-            )
-        )
-        
-        }
-        
+                        </LoadingOverlay>
+                    )
+                )
+
+            }
+
         </>
     )
 }
