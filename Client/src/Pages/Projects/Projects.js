@@ -36,7 +36,7 @@ const Projects = () => {
                             <div className="col" key={index}>
                                 <div className="cards" style={{ textDecoration: "none" }}>
                                     <div className="card-header">
-                                        <img src="https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg" alt="profile" />
+                                        <img src={data.cover_pic.url} alt="profile" />
                                     </div>
                                     <div className="card-body">
                                         <span className="tag tag-teal">{data.theme}</span>

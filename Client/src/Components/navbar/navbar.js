@@ -5,7 +5,7 @@ import './navbar.css';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Avatar, Button } from '@material-ui/core';
 import { useAuth0 } from "@auth0/auth0-react"
-
+import logo from './logo.png'
 const Navbarr = () => {
     const { loginWithRedirect, logout, user, isAuthenticated, isLoading } = useAuth0();
 

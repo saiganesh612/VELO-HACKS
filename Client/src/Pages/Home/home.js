@@ -1,16 +1,24 @@
 import React from 'react'
 import TypeWriterEffect from 'react-typewriter-effect';
 import hero from './Images/hero.png';
-import about from './Images/about.png';
+import about from './Images/about.svg';
 import decor from './Images/spark.svg';
 import bg from './Images/bg.png'
 import useStyles from './style'
-
+import './styles.css'
 const Home = () => {
     const classes = useStyles();
     return (
         <div className="container" style={{backgroundImage:{bg}}}>
             <br/> <br/> <br/>
+            <div className="background">
+                <div className="cube"></div>
+                <div className="cube"></div>
+                <div className="cube"></div>
+                <div className="cube"></div>
+                <div className="cube"></div>
+                <div className="cube"></div>
+            </div>
             {/* hero section */}
             <div className="row">
                 <div className="col" >
@@ -30,7 +38,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="col-6">
-                    <img height="500px" alt="" src={hero} />
+                    <img height="550px" alt="" src={hero} />
                 </div>
             </div>
             <br />
@@ -42,9 +50,9 @@ const Home = () => {
             {/* ABOUT SECTION */}
             <div className="row">
                 <div className="col">
-                    <img alt="" style={{ width: "500px" }} src={about} />
+                    <img alt="" style={{ maxWidth: "550px" }} src={about} />
                 </div>
-                <div className="col">
+                <div className="col" style={{ marginTop: "50px" }}>
                     <div className={classes.about}>
                         <p>All in one....</p>
                     </div>

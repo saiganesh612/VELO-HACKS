@@ -48,12 +48,12 @@ const TeammatesFeed = () => {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-4 " style={{ marginTop: "4pc" }}>
+                <div className="col-4" style={{ marginTop: "4pc" }}>
                     <Profile />
                     <br />
                     <RecentFeed posts={post} />
                 </div>
-                <div className="col-7 blog">
+                <div className="col-8 blog">
                     {teamFeed?.map((data, index) => {
                         return (
                             <div key={index} className="blog-comments">
