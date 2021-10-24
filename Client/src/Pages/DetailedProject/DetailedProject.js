@@ -9,8 +9,6 @@ import { useAuth0 } from "@auth0/auth0-react"
 
 const DetailedProject = () => {
   const params = useParams();
-  var Accordion = require('react-bootstrap').Accordion;
-  var Panel = require('react-bootstrap').Panel;    
   const [project, setProject] = useState({});
   const [comment, setComment] = useState("")
   const [comments, setComments] = useState([])
@@ -25,7 +23,7 @@ const DetailedProject = () => {
         setPosts(res.data.posts)
       })
       .catch(err => {
-        console.log(err.response.data)
+        console.log(err)
         alert("Their is no project associated with this id.")
         window.location.href = "/projects";
       })
@@ -62,8 +60,6 @@ const DetailedProject = () => {
     })
   }
 
-  console.log("related posts ", posts)
-
   return (
     <div>
       <section id="blog" className="blog">
@@ -94,7 +90,10 @@ const DetailedProject = () => {
 
                 <div className="entry-content">
                   <blockquote>
-                    <p><b>CODE:</b> <a style={{ fontSize: "18px" }} href={project?.repo_link}>{project?.repo_link}</a></p>
+                    <p>
+                      <b>CODE:</b>
+                      <a style={{ fontSize: "18px" }} href={project?.repo_link} rel="noreferrer" target="_blank">{project?.repo_link}</a>
+                    </p>
                     <br />
                     <p><b>THEME:</b> {project?.stack}</p>
                     <br />
@@ -102,9 +101,8 @@ const DetailedProject = () => {
                     <ol>
                       {project?.team?.map((team, index) => {
                         return (
-                          <a key={index}
-                            style={{ textTransform: "capitalize", textDecoration: "none", color: "black" }}
-                            href={team.linkedinUrl}>
+                          <a key={index} style={{ textTransform: "capitalize", textDecoration: "none", color: "black" }}
+                            href={team.linkedinUrl} target="_blank" rel="noreferrer">
                             <li >{team.name}</li>
                           </a>
                         )
@@ -122,19 +120,19 @@ const DetailedProject = () => {
               <div className="sidebar col-12 w-100">
                 <h3 className="sidebar-title">Related Projects</h3>
                 <div className="sidebar-item recent-posts">
-                {posts.map(data=>{
-                    return(
-                      <div className="post-item clearfix row" style={{marginBottom:"10px"}}>
-                      <div className="col-4">
-                        <a href={`/projects/${data._id}`}><img src={data?.cover_pic?.url} alt="Cover pic" /></a>
-                        <h4>{data.hackathon_name}</h4>
-                        <time dateTime="2020-01-01">{moment(data?.upload_time).fromNow()}</time>
+                  {posts.map((data, index) => {
+                    return (
+                      <div key={index} className="post-item clearfix row" style={{ marginBottom: "10px" }}>
+                        <div className="col-4">
+                          <a href={`/projects/${data._id}`}><img src={data?.cover_pic?.url} alt="Cover pic" /></a>
+                          <h4>{data.hackathon_name}</h4>
+                          <time dateTime="2020-01-01">{moment(data?.upload_time).fromNow()}</time>
+                        </div>
+                        <div className="col-8">
+                          <p>{data?.detailed_desc.substr(0, 250)}....<a href={`/projects/${data._id}`}>View more</a></p>
+                        </div>
+                        <br />
                       </div>
-                      <div className="col-8">
-                        <p>{data?.detailed_desc.substr(0,250)}....<a href={`/projects/${data._id}`}>View more</a></p>
-                      </div>
-                      <br/>
-                    </div>
                     )
                   })}
                 </div>
@@ -156,72 +154,74 @@ const DetailedProject = () => {
                     </div>
                     <button type="submit" className="btn btn-primary">Post Comment</button>
                   </form>
-                  
-                <br />
-                <h4 className="comments-count">{comments.length} Comments</h4>
-                
-                {comments?.map((data, index) => {
-                  return (
-                    <div key={index}>
-                      <div id="comment-1" className="comment">
-                        <div className="d-flex">
-                          <div className="comment-img">
-                            <img style={{ width: "40px", borderRadius: "50%", marginTop: "5px", border: "2px solid grey" }}
-                              src={data.profile} alt="profile" />
-                          </div>
-                          <div>
-                            <h5>
-                              {data.username}
-                              <i className="bi bi-reply-fill"></i>
-                              <Reply
-                                index={index}
-                                projectId={params.id}
-                                commentId={data._id}
-                                reply="Reply"
-                                replyTo={data.username}
-                                setComments={setComments}
-                              />
-                            </h5>
-                            <time dateTime="2020-01-01">{moment(data.time).fromNow()}</time>
-                            <p> {data.comment} </p>
+
+                  <br />
+                  <h4 className="comments-count">{comments.length} Comments</h4>
+
+                  {comments?.map((data, index) => {
+                    return (
+                      <div key={index}>
+                        <div id="comment-1" className="comment">
+                          <div className="d-flex">
+                            <div className="comment-img">
+                              <img style={{ width: "40px", borderRadius: "50%", marginTop: "5px", border: "2px solid grey" }}
+                                src={data.profile} alt="profile" />
+                            </div>
+                            <div>
+                              <h5>
+                                {data.username}
+                                <i className="bi bi-reply-fill"></i>
+                                <Reply
+                                  index={index}
+                                  projectId={params.id}
+                                  commentId={data._id}
+                                  reply="Reply"
+                                  replyTo={data.username}
+                                  setComments={setComments}
+                                />
+                              </h5>
+                              <time dateTime="2020-01-01">{moment(data.time).fromNow()}</time>
+                              <p> {data.comment} </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      {data.subComments.length >0 &&(
-                        <p>
-                          <b><a style={{color:"black",textDecoration:"none",marginLeft:"20PX"}} data-toggle="collapse" href={"#multiCollapseExample"+String(index)} role="button" aria-expanded="false" aria-controls={"multiCollapseExample"+String(index)}>{data.subComments.length} replies  <img src={arrowIcon} height="12px"/></a></b>
-                        </p>
-                      )}
-                      
-                      <div  class="collapse multi-collapse" id={"multiCollapseExample"+String(index)}>
-                        {data.subComments.map((sub, ind) => {
-                          return (
+                        {data.subComments.length > 0 && (
+                          <p>
+                            <b>
+                              <a style={{ color: "black", textDecoration: "none", marginLeft: "20PX" }}
+                                data-toggle="collapse" href={"#multiCollapseExample" + String(index)}
+                                role="button" aria-expanded="false" aria-controls={"multiCollapseExample" + String(index)}>
+                                {data.subComments.length} replies  <img src={arrowIcon} height="12px" alt="" />
+                              </a>
+                            </b>
+                          </p>
+                        )}
+
+                        <div className="collapse multi-collapse" id={"multiCollapseExample" + String(index)}>
+                          {data.subComments.map((sub, index) => {
+                            return (
                               <div>
                                 <div key={index} id="comment-reply-1" className="comment comment-reply" >
-                                <div className="d-flex" style={{overflowX:"auto",width:"100%"}}>
-                                  <div className="comment-img">
-                                    <img style={{ width: "40px", borderRadius: "50%", marginTop: "5px", border: "2px solid grey" }}
-                                      src={data.profile} alt="profile" />
-                                  </div>
-                                  <div>
-                                    <h5>{sub.username}</h5>
-                                    <time dateTime="2020-01-01">{moment(sub.time).fromNow()}</time>
-                                    <p> {sub.comment} </p>
+                                  <div className="d-flex" style={{ overflowX: "auto", width: "100%" }}>
+                                    <div className="comment-img">
+                                      <img style={{ width: "40px", borderRadius: "50%", marginTop: "5px", border: "2px solid grey" }}
+                                        src={sub.profile} alt="profile" />
+                                    </div>
+                                    <div>
+                                      <h5>{sub.username}</h5>
+                                      <time dateTime="2020-01-01">{moment(sub.time).fromNow()}</time>
+                                      <p> {sub.comment} </p>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                          </div>
-                          )
-                        })}
+                            )
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  )
-                })}
-              <div>
+                    )
+                  })}
                 </div>
-
-             
-              </div>
               </div>
             </div>
           </div>

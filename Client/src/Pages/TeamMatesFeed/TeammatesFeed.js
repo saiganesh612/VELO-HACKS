@@ -9,7 +9,19 @@ import { useAuth0 } from "@auth0/auth0-react"
 const TeammatesFeed = () => {
     const [teamFeed, setTeamFeed] = useState([]);
     const [post, setPost] = useState([]);
-    const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
+    const { user, isAuthenticated, isLoading, getAccessTokenSilently, error } = useAuth0()
+
+    useEffect(() => {
+        if (error) {
+            alert(error.error_description)
+            window.location.search = ""
+        }
+        else if (isAuthenticated && user) {
+            axios.post("/update-user-details", { user })
+                .then((res) => console.log(res.data.message))
+                .catch(err => console.log(err.response))
+        }
+    }, [error, isAuthenticated, user])
 
     useEffect(() => {
         const getFeed = async () => {
@@ -59,14 +71,14 @@ const TeammatesFeed = () => {
                             <div key={index} className="blog-comments">
                                 <div className="reply-form">
                                     <div id="comment-1" className="comment" >
-                                        <p style={{ textAlign: "right" }}>Close issue</p>
+                                        {/* <p style={{ textAlign: "right" }}>Close issue</p> */}
                                         <div className="d-flex">
                                             <div className="comment-img">
                                                 <img style={{ width: "40px", borderRadius: "50%", marginTop: "5px", border: "2px solid grey" }}
                                                     src={data.profileImage} alt="profile" />
                                             </div>
                                             <div>
-                                                <a href={data.linkedin}>
+                                                <a href={data.linkedin} rel="noreferrer" target="_blank">
                                                     <h5>@{data.username}
                                                         <span style={{ color: "black", fontSize: "15px", fontWeight: "lighter", padding: "5px" }}>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat" viewBox="0 0 16 16">
