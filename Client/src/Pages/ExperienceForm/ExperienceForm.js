@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Button, Spinner } from 'react-bootstrap';
+import { Card, Row, Col, Button } from 'react-bootstrap';
 import useStyles from './styles.js'
 import { Container } from 'react-bootstrap';
 import axios from "axios"
 import { useAuth0 } from "@auth0/auth0-react"
-import { EditorState } from 'draft-js';
-import { ContentState, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
+// import { EditorState } from 'draft-js';
+// import { ContentState, convertToRaw } from 'draft-js';
 import LoadingOverlay from 'react-loading-overlay';
 
 // import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 const ExperienceForm = () => {
     const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
-    const [editorState, setEditorState] = useState(
-        () => EditorState.createEmpty(),
-    );
+    // const [editorState, setEditorState] = useState(
+    //     () => EditorState.createEmpty(),
+    // );
     let isActive = false;
-    let _contentState = ContentState.createFromText('Sample content state');
-    const raw = convertToRaw(_contentState)
-    const [contentState, setContentState] = useState(raw) // ContentState JSON
-    console.log("raw", raw)
+    // let _contentState = ContentState.createFromText('Sample content state');
+    // const raw = convertToRaw(_contentState)
+    // const [contentState, setContentState] = useState(raw) // ContentState JSON
 
     const [inputList, setInputList] = useState([{ name: "", linkedinUrl: "" }]);
     const [postData, setPostData] = useState({
@@ -28,8 +26,6 @@ const ExperienceForm = () => {
         projectTheme: '', techStack: '', selectedFile: '', repolink: '', YoutubeLink: ''
     });
     const classes = useStyles();
-
-    //if (!isAuthenticated) return window.location.href = "/"
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -49,8 +45,20 @@ const ExperienceForm = () => {
     const handleAddClick = () => {
         setInputList([...inputList, { name: "", linkedinUrl: "" }]);
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const submitBtn = document.getElementById("submit")
+        submitBtn.style.pointerEvents = "none"
+        submitBtn.innerHTML = `
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <strong style="margin-left: 10px; padding-top: 5px;">Please wait...</strong>
+            </div>
+        `
+
         isActive = true
         const satisfy = !postData.Hackerthonname || !postData.Organizer || !postData.eventDate || !postData.detailedDescription || !postData.selectedFile
             || !postData.BriefDescription || !postData.projectTheme || !postData.techStack || !postData.repolink || !postData.YoutubeLink
@@ -74,6 +82,8 @@ const ExperienceForm = () => {
             return
         }
 
+        const utubeLink = postData.YoutubeLink.replace("watch?v=", "embed/")
+
         const formData = new FormData()
         formData.append("Hackerthonname", postData.Hackerthonname)
         formData.append("Organizer", postData.Organizer)
@@ -84,7 +94,7 @@ const ExperienceForm = () => {
         formData.append("projectTheme", postData.projectTheme)
         formData.append("techStack", postData.techStack)
         formData.append("repolink", postData.repolink)
-        formData.append("YoutubeLink", postData.YoutubeLink)
+        formData.append("YoutubeLink", utubeLink)
         formData.append("TeamDetails", JSON.stringify(inputList))
         formData.append("username", user.nickname)
         formData.append("profileImage", user.picture)
@@ -109,7 +119,7 @@ const ExperienceForm = () => {
             window.location.reload()
         })
     }
-console.log("postdata",postData)
+
     return (
         <>
             {
@@ -188,13 +198,13 @@ console.log("postdata",postData)
                                                         <input required type="text" className="form-control" name="projecttheme" id="floatingInput" placeholder="Reha" value={postData.projectTheme} onChange={(e) => setPostData({ ...postData, projectTheme: e.target.value })} />
                                                         <label htmlFor="floatingInput">Theme of Project</label>
                                                     </div> */}
-                                                    <select class="form-select form-select-lg mb-3" name="projecttheme" value={postData.projectTheme} aria-label=".form-select-lg example"   onChange={(e) => setPostData({ ...postData, projectTheme: e.target.value })} required>
-                                                    <option selected>Select your theme</option>
-                                                    <option value="FIN-TECH">FIN-TECH</option>
-                                                    <option value="EDU-TECH">EDU-TECH</option>
-                                                    <option value="FOOD-TECH">FOOD-TECH</option>
-                                                    <option value="MED-TECH">MED-TECH</option>
-                                                    <option value="AGRI-TECH">AGRI-TECH</option>
+                                                    <select className="form-select form-select-lg mb-3" name="projecttheme" value={postData.projectTheme} aria-label=".form-select-lg example" onChange={(e) => setPostData({ ...postData, projectTheme: e.target.value })} required>
+                                                        <option defaultValue>Select your theme</option>
+                                                        <option value="FIN-TECH">FIN-TECH</option>
+                                                        <option value="EDU-TECH">EDU-TECH</option>
+                                                        <option value="FOOD-TECH">FOOD-TECH</option>
+                                                        <option value="MED-TECH">MED-TECH</option>
+                                                        <option value="AGRI-TECH">AGRI-TECH</option>
                                                     </select>
                                                 </Col>
 
@@ -250,9 +260,8 @@ console.log("postdata",postData)
                                             <Row>
                                                 <Col>
                                                     <br />
-                                                    <Button className="btn btn-info w-100" size="large" type="submit">Submit</Button>
+                                                    <Button className="btn btn-info w-100" id="submit" size="large" type="submit">Submit</Button>
                                                 </Col>
-
                                             </Row>
                                         </form>
                                     </Card>
