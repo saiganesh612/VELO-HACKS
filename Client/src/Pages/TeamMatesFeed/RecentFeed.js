@@ -6,10 +6,15 @@ export const RecentFeed = (props) => {
   return (
     <div className="blog">
       <div className="sidebar">
-        <h3 className="sidebar-title">Your Projects</h3>
+        <h3 className="sidebar-title" style={{textAlign:"center"}}>Your Projects</h3>
         <div className="sidebar-item recent-posts">
           {!props.posts.length
-            ? <p>Their are no posts to show.</p>
+            ? <p style={{textAlign:"center"}}> 
+              <br/>
+              <b>"We are drowning in information but starved for knowledge." </b>
+              <br/><br/>
+              Please <a href="/post-your-experience">share</a> your experiece with us
+             </p>
             : props.posts.map((data, index) => {
               return (
                 <div key={index} className="post-item clearfix">
