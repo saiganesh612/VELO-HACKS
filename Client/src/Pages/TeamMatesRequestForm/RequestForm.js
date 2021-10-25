@@ -53,16 +53,16 @@ const RequestForm = () => {
     return (
         <>
             {
-                (!isAuthenticated) ? (
+                (isLoading) ? (
                     <>
-                        <LoadingOverlay active={true} spinner text='Please signin to post your requirements'>
+                        <LoadingOverlay active={true} spinner text='Loading...'>
                             <div style={{ height: "90vh" }}></div>
                         </LoadingOverlay>
                     </>
                 ) : (
-                    isLoading ? (
+                    !isAuthenticated ? (
                         <>
-                            <LoadingOverlay active={true} spinner text='Loading'>
+                            <LoadingOverlay active={true} spinner text='Please signin to post your requirements'>
                                 <div style={{ height: "90vh" }}></div>
                             </LoadingOverlay>
                         </>
