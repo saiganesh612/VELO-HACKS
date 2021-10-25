@@ -125,14 +125,14 @@ const ExperienceForm = () => {
             {
                 ( isLoading ) ? (
                     <>
-                        <LoadingOverlay active={true} spinner text='Please signin to post your experience'>
+                        <LoadingOverlay active={true} spinner text='Loading'>
                             <div style={{ height: "90vh" }}></div>
                         </LoadingOverlay>
                     </>
                 ) : (
                   ( ! isAuthenticated) ? (
                         <>
-                            <LoadingOverlay active={true} spinner text='Loading....'>
+                            <LoadingOverlay active={true} spinner text='Please signin to post your experience'>
                                 <div style={{ height: "100vh" }}></div>
                             </LoadingOverlay>
                         </>
