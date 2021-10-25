@@ -5,12 +5,10 @@ import Profile from './Profile'
 import { RecentFeed } from './RecentFeed'
 import '../DetailedProject/styles.css'
 import { useAuth0 } from "@auth0/auth0-react"
-import LoadingOverlay from 'react-loading-overlay';
 const TeammatesFeed = () => {
     const [teamFeed, setTeamFeed] = useState([]);
     const [post, setPost] = useState([]);
-    const { user, isAuthenticated, isLoading, getAccessTokenSilently, error } = useAuth0()
-
+    const {loginWithRedirect, user, isAuthenticated, isLoading, getAccessTokenSilently, error } = useAuth0()
     useEffect(() => {
         if (error) {
             alert(error.error_description)
@@ -45,7 +43,6 @@ const TeammatesFeed = () => {
         if (!isLoading) getFeed()
 
     }, [getAccessTokenSilently, isLoading, user])
-
     if (isLoading) {
         return (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
@@ -55,24 +52,13 @@ const TeammatesFeed = () => {
             </div>
         )
     }
-    //if (!isAuthenticated) window.location.href = "/projects"
+    if (!isAuthenticated){
+         loginWithRedirect()
+    }
 
     return (
         <>
-        {(isLoading)?(
-                <>
-                <LoadingOverlay active={true} spinner text='Loading...'>
-                    <div style={{ height: "90vh" }}></div>
-                </LoadingOverlay>
-                </>
-        ):(
-            (!isAuthenticated)?(
-                <>
-                <LoadingOverlay active={true} spinner text='Please signin'>
-                    <div style={{ height: "90vh" }}></div>
-                </LoadingOverlay>
-                </>
-            ):(
+            {isAuthenticated?
                 <div className="container">
                 <div className="row">
                     <div className="col-4" style={{ marginTop: "4pc" }}>
@@ -121,9 +107,11 @@ const TeammatesFeed = () => {
                     </div>
                 </div>
             </div>
-            ) 
-        )}
-        
+            :<div>
+                <div style={{marginTop:"20%",marginLeft:"45%"}} >
+                    <p>Redirecting to login.......</p>
+                </div>
+            </div>}
        
         </>
     )
